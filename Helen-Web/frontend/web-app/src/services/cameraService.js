@@ -1,5 +1,5 @@
 import { API_CONFIG } from '../config/constants';
-import { mediaPipeService } from './mediaPipeService';
+import { mediaPipeService } from './mediapipeService';
 import { predictionService } from './predictionService';
 /**
  * Camera Service: handles camera stream management

@@ -65,13 +65,13 @@ export const GestureNavigationProvider = ({ children }) => {
         
         // Validate context for agregar/editar actions
         if (action.action === 'add-item' || action.action === 'edit-item') {
-          // Only allow on Alarms and Devices screens
-          const validRoutes = [ROUTES.ALARMS, ROUTES.DEVICES];
+          // Only allow on Alarms, Devices and Calendar screens
+          const validRoutes = [ROUTES.ALARMS, ROUTES.DEVICES, ROUTES.CALENDAR];
           
           if (!validRoutes.includes(location.pathname)) {
             // Warn if action is not valid on the current route
             console.warn(`Action ${action.action} not valid on route: ${location.pathname}`);
-            console.log(`Navigate to Alarms or Devices first to use this gesture`);
+            console.log(`Navigate to Alarms, Devices or Calendar first to use this gesture`);
             return; // Don't set pendingModalGesture
           }
           

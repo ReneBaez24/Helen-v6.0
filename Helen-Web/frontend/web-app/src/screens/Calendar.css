@@ -1,0 +1,511 @@
+/**
+ * Calendar Screen Styles
+ * Designed for the 1024x600 glass foundation (Raspberry Pi kiosk), touch-first.
+ */
+
+.calendar-screen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Header is a bit tighter here to give the grid more room */
+.calendar-screen .screen-header {
+    padding: 24px 40px 16px;
+}
+
+.calendar-body {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: 20px;
+    padding: 0 40px 28px;
+}
+
+/* Shared glass panel look */
+.calendar-month,
+.calendar-day-panel {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    min-height: 0;
+}
+
+/* ================= Month ================= */
+.calendar-month {
+    display: flex;
+    flex-direction: column;
+    padding: 14px 16px 12px;
+    gap: 8px;
+}
+
+.calendar-month__nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.calendar-month__title {
+    flex: 1;
+    margin: 0;
+    font-size: 22px;
+    font-weight: 600;
+    text-align: center;
+    color: var(--color-text-primary);
+}
+
+.calendar-month__year {
+    font-weight: 400;
+    color: var(--color-text-secondary);
+}
+
+.calendar-month__nav-btn,
+.calendar-month__today-btn {
+    height: 44px;
+    min-width: 44px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+    padding: 0;
+}
+
+.calendar-month__nav-btn:hover,
+.calendar-month__today-btn:hover {
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.calendar-month__today-btn {
+    padding: 0 16px;
+    color: var(--color-text-primary);
+    font-size: 15px;
+    font-weight: 500;
+    font-family: inherit;
+}
+
+/* Grid */
+.calendar-grid {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    grid-template-rows: 20px repeat(6, 1fr);
+    gap: 4px;
+}
+
+.calendar-grid__weekday {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-align: center;
+    color: var(--color-text-secondary);
+}
+
+.calendar-grid__weekday--weekend {
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.calendar-day {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--color-text-primary);
+    font-family: inherit;
+    font-size: 17px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    padding: 0;
+    min-height: 0;
+}
+
+.calendar-day:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.calendar-day:active {
+    transform: scale(0.95);
+}
+
+.calendar-day--weekend .calendar-day__number {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.calendar-day--past .calendar-day__number {
+    opacity: 0.55;
+}
+
+.calendar-day--outside .calendar-day__number {
+    opacity: 0.25;
+}
+
+/* Holiday highlights */
+.calendar-day--official {
+    background: rgba(255, 99, 71, 0.38);
+    border-color: rgba(255, 140, 120, 0.6);
+}
+
+.calendar-day--official:hover {
+    background: rgba(255, 99, 71, 0.5);
+}
+
+.calendar-day--civic {
+    background: rgba(255, 200, 0, 0.16);
+    border: 1px dashed rgba(255, 210, 60, 0.75);
+}
+
+.calendar-day--outside.calendar-day--official,
+.calendar-day--outside.calendar-day--civic {
+    opacity: 0.45;
+}
+
+/* Today = ring, Selected = filled (works on top of holiday colors) */
+.calendar-day--today {
+    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.9);
+}
+
+.calendar-day--selected,
+.calendar-day--selected:hover {
+    background: rgba(255, 255, 255, 0.92);
+    border-color: rgba(255, 255, 255, 0.92);
+}
+
+.calendar-day--selected .calendar-day__number {
+    color: #222;
+    opacity: 1;
+    font-weight: 700;
+}
+
+/* Reminder dot */
+.calendar-day__dot {
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    margin-left: -3px;
+    border-radius: 50%;
+    background: rgba(100, 200, 255, 1);
+    box-shadow: 0 0 4px rgba(100, 200, 255, 0.8);
+}
+
+.calendar-day--selected .calendar-day__dot {
+    background: #1a73e8;
+    box-shadow: none;
+}
+
+/* Legend */
+.calendar-legend {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    font-size: 12px;
+    color: var(--color-text-secondary);
+}
+
+.calendar-legend__item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.calendar-legend__swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 4px;
+}
+
+.calendar-legend__swatch--official {
+    background: rgba(255, 99, 71, 0.6);
+    border: 1px solid rgba(255, 140, 120, 0.9);
+}
+
+.calendar-legend__swatch--civic {
+    background: rgba(255, 200, 0, 0.2);
+    border: 1px dashed rgba(255, 210, 60, 0.9);
+}
+
+.calendar-legend__swatch--reminder {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(100, 200, 255, 1);
+}
+
+/* ================= Day panel ================= */
+.calendar-day-panel {
+    display: flex;
+    flex-direction: column;
+    padding: 18px 18px 16px;
+    gap: 12px;
+}
+
+.calendar-day-panel__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.calendar-day-panel__date {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+.calendar-day-panel__today {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #222;
+    flex-shrink: 0;
+}
+
+/* Holiday badges */
+.calendar-day-panel__holidays {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.calendar-holiday {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 12px;
+}
+
+.calendar-holiday .material-symbols-outlined {
+    color: #FFFFFF;
+}
+
+.calendar-holiday--official {
+    background: rgba(255, 99, 71, 0.38);
+    border: 1px solid rgba(255, 140, 120, 0.6);
+}
+
+.calendar-holiday--civic {
+    background: rgba(255, 200, 0, 0.16);
+    border: 1px dashed rgba(255, 210, 60, 0.75);
+}
+
+.calendar-holiday__text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.calendar-holiday__name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    line-height: 1.2;
+}
+
+.calendar-holiday__type {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+}
+
+/* Reminder list */
+.calendar-reminders {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.calendar-reminders::-webkit-scrollbar {
+    width: 6px;
+}
+
+.calendar-reminders::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+}
+
+.calendar-reminders__empty {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.calendar-reminders__empty-icon {
+    font-size: 56px;
+    font-weight: 200;
+}
+
+.calendar-reminders__empty-text,
+.calendar-reminders__hint {
+    margin: 0;
+    font-size: 16px;
+    color: var(--color-text-secondary);
+}
+
+.calendar-reminders__hint {
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+.calendar-reminder {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    min-height: 52px;
+    flex-shrink: 0;
+}
+
+.calendar-reminder--past {
+    opacity: 0.55;
+}
+
+.calendar-reminder--editable {
+    cursor: pointer;
+}
+
+.calendar-reminder--editable:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.calendar-reminder__icon {
+    flex-shrink: 0;
+    font-size: 26px;
+    color: var(--color-icon-secondary);
+}
+
+.calendar-reminder__content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.calendar-reminder__title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.calendar-reminder__time {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+}
+
+.calendar-reminder__actions {
+    flex-shrink: 0;
+    display: flex;
+    gap: 8px;
+}
+
+.calendar-reminder__btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+}
+
+.calendar-reminder__btn .material-symbols-outlined {
+    color: #FFFFFF;
+    font-size: 22px;
+}
+
+.calendar-reminder__btn--delete {
+    background: rgba(255, 59, 48, 0.9);
+}
+
+.calendar-reminder__btn--delete:hover {
+    background: rgba(255, 59, 48, 1);
+}
+
+/* Footer */
+.calendar-day-panel__add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 48px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    color: #222;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.2s;
+}
+
+.calendar-day-panel__add:hover {
+    background: #FFFFFF;
+}
+
+.calendar-day-panel__add .material-icons-outlined {
+    color: #222;
+}
+
+.calendar-day-panel__note,
+.calendar-day-panel__error {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    line-height: 1.3;
+    color: var(--color-text-secondary);
+    flex-shrink: 0;
+}
+
+.calendar-day-panel__note .material-icons-outlined {
+    font-size: 18px;
+}
+
+.calendar-day-panel__error {
+    color: #FFFFFF;
+    background: rgba(255, 59, 48, 0.35);
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+
+.calendar-day-panel__error .material-icons-outlined {
+    font-size: 18px;
+    color: #FFFFFF;
+}

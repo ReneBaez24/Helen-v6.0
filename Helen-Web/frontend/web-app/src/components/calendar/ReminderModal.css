@@ -1,0 +1,312 @@
+/**
+ * ReminderModal Styles
+ * Two-column compact layout that fits the medium GlassModal (no scrolling)
+ * Visual language matches AlarmModal (glass buttons, spinners, switch)
+ */
+
+.reminder-modal {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+/* Header */
+.reminder-modal__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.reminder-modal__title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+.reminder-modal__btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--color-icon);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+    flex-shrink: 0;
+    padding: 0;
+}
+
+.reminder-modal__btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.reminder-modal__btn .material-icons-outlined {
+    font-size: 20px;
+}
+
+.reminder-modal__btn--save .material-icons-outlined {
+    color: var(--color-text-primary);
+}
+
+/* Body */
+.reminder-modal__body {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: 20px;
+}
+
+.reminder-modal__column {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
+}
+
+.reminder-modal__label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+}
+
+/* Date stepper */
+.reminder-modal__date {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 6px;
+}
+
+.reminder-modal__date-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    text-align: center;
+    flex: 1;
+    white-space: nowrap;
+}
+
+.reminder-modal__step {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+}
+
+.reminder-modal__step:disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+
+/* All-day switch (same look as AlarmItem toggle) */
+.reminder-modal__allday {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 4px;
+}
+
+.reminder-modal__switch {
+    width: 52px;
+    height: 32px;
+    border-radius: 16px;
+    background: rgba(120, 120, 128, 0.42);
+    border: none;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    padding: 0;
+}
+
+.reminder-modal__switch--on {
+    background: rgba(52, 199, 89, 1);
+}
+
+.reminder-modal__switch-thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    transition: transform 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.reminder-modal__switch--on .reminder-modal__switch-thumb {
+    transform: translateX(20px);
+}
+
+/* Time spinners */
+.reminder-modal__time {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: opacity 0.2s;
+}
+
+.reminder-modal__time--disabled {
+    opacity: 0.35;
+}
+
+.reminder-modal__spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.reminder-modal__arrow {
+    width: 56px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+}
+
+.reminder-modal__arrow:disabled,
+.reminder-modal__period:disabled {
+    cursor: default;
+}
+
+.reminder-modal__time-value {
+    width: 56px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    color: var(--color-text-primary);
+    font-size: 34px;
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+}
+
+.reminder-modal__separator {
+    font-size: 34px;
+    font-weight: 300;
+    color: var(--color-text-primary);
+}
+
+.reminder-modal__period {
+    width: 56px;
+    height: 60px;
+    margin-left: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    color: var(--color-text-primary);
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* Category chips */
+.reminder-modal__categories {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.reminder-modal__category {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    min-height: 64px;
+    padding: 6px 1px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.reminder-modal__category:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.reminder-modal__category-label {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 11px;
+    color: var(--color-text-secondary);
+    line-height: 1.1;
+    text-align: center;
+}
+
+.reminder-modal__category--active {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(255, 255, 255, 0.9);
+}
+
+.reminder-modal__category--active .material-symbols-outlined,
+.reminder-modal__category--active .reminder-modal__category-label {
+    color: #333;
+}
+
+/* Title input */
+.reminder-modal__input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: var(--color-text-primary);
+    font-size: 15px;
+    font-family: inherit;
+}
+
+.reminder-modal__input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.reminder-modal__input:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Error */
+.reminder-modal__error {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #FFFFFF;
+    background: rgba(255, 59, 48, 0.35);
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+
+.reminder-modal__error .material-icons-outlined {
+    font-size: 18px;
+    color: #FFFFFF;
+}

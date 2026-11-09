@@ -1,6 +1,7 @@
 import React, { useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCamera } from '../../contexts/cameraHooks';
+import { useGestureNavigationActions } from '../../contexts/gestureNavigationHooks';
 import { SIGN_GESTURES, ROUTES } from '../../config/constants';
 
 /**
@@ -13,8 +14,9 @@ import { SIGN_GESTURES, ROUTES } from '../../config/constants';
 export const TouchHandler = ({ children }) => {
     const navigate = useNavigate();
     const { isCameraActive, subscribeToCameraEvents, handleSignDetection } = useCamera();
+    const { executeGestureAction } = useGestureNavigationActions();
 
-    const handleGesture = useCallback((gesture) => {
+    const handleGesture = useCallback((gesture, confidence) => {
         // Map recognized gestures to corresponding navigation actions
         switch (gesture) {
         case SIGN_GESTURES.INICIO:
@@ -32,11 +34,21 @@ export const TouchHandler = ({ children }) => {
         case SIGN_GESTURES.CONFIGURACION:
             navigate(ROUTES.SETTINGS);
             break;
+        case SIGN_GESTURES.CALENDARIO:
+            navigate(ROUTES.CALENDAR);
+            break;
+        case SIGN_GESTURES.AGREGAR:
+        case SIGN_GESTURES.EDITAR:
+            // Context-dependent actions (Alarms, Devices, Calendar screens).
+            // GestureNavigationContext validates the current route and exposes
+            // the action through pendingModalGesture for the active screen.
+            executeGestureAction(gesture, confidence);
+            break;
         default:
             // Log unrecognized gestures for debugging purposes
             console.log('Unrecognized gesture received:', gesture);
         }
-    }, [navigate]);
+    }, [navigate, executeGestureAction]);
 
     // Keep a stable reference to avoid re-subscribing
     const handleGestureRef = useRef(handleGesture);
@@ -53,7 +65,7 @@ export const TouchHandler = ({ children }) => {
         const subscribe = async () => {
             unsubscribe = await subscribeToCameraEvents((detection) => {
                 handleSignDetection(detection.gesture);
-                handleGestureRef.current(detection.gesture);
+                handleGestureRef.current(detection.gesture, detection.confidence);
             });
         };
 

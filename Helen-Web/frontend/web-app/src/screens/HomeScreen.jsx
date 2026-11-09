@@ -80,13 +80,23 @@ const HomeScreen = () => {
             </GlassCard>
 
             {/* Date Card - Center */}
-            <GlassCard className="home-screen__card home-screen__card--date">
+            {/* Date Card - Center: opens the Calendar (also reachable with the LSM sign "calendario") */}
+            <GlassCard
+                hoverable
+                onClick={() => handleGridItemClick(HOME_ACTIONS.CALENDAR)}
+                className="home-screen__card home-screen__card--date"
+                ariaLabel="Navigate to Calendar"
+            >
                 <p className="home-screen__date-day">
                     <TimeDisplay format="day" />
                 </p>
                 <h2 className="home-screen__date-full">
                     <TimeDisplay format="date" />
                 </h2>
+                <span className="home-screen__date-hint">
+                    <span className="material-symbols-outlined">calendar_month</span>
+                    Calendario
+                </span>
             </GlassCard>
 
             {/* Settings Card - Right */}

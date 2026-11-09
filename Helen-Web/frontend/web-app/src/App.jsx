@@ -22,6 +22,7 @@ const Alarms = lazy(() => import('./screens/Alarms'));
 const Weather = lazy(() => import('./screens/Weather'));
 const MyDevices = lazy(() => import('./screens/MyDevices'));
 const Settings = lazy(() => import('./screens/Settings'));
+const Calendar = lazy(() => import('./screens/Calendar'));
 
 /**
  * Loading fallback component
@@ -60,6 +61,7 @@ const AppRoutes = () => {
           <Route path={ROUTES.WEATHER} element={<Weather />} />
           <Route path={ROUTES.DEVICES} element={<MyDevices />} />
           <Route path={ROUTES.SETTINGS} element={<Settings />} />
+          <Route path={ROUTES.CALENDAR} element={<Calendar />} />
           <Route path="/" element={<Navigate to={ROUTES.LOCK} replace />} />
         </Routes>
       </Suspense>

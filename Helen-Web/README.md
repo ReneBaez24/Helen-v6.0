@@ -7,6 +7,7 @@ Helen is an intelligent home assistant for the deaf community that recognizes Me
 Helen v5.0.2 uses a PyTorch LSTM bidirectional neural network to recognize 10 LSM gestures in real-time, enabling users to control home automation features through sign language instead of voice commands.
 
 **Recognized Gestures:** agregar, alarma, camara, clima, colores, configuracion, dispositivos, editar, home, wifi
+**New in v6.0:** `calendario` (opens the Calendar screen). The frontend is ready for it; the model must be retrained to recognize it — see [Calendar Screen](#calendar-screen-v60).
 
 **Key Metrics:**
 - Recognition Accuracy: >90%
@@ -270,6 +271,58 @@ This will:
 - Set up auto-login
 
 The Pi will automatically open `http://13.58.208.156:3000` on boot.
+
+## Calendar Screen (v6.0)
+
+Route: `/calendar` · Screen: `src/screens/Calendar.jsx`
+
+**What it does**
+- Month view (Monday-first) with Mexican holidays highlighted:
+  - **Feriado oficial** (solid red): mandatory rest days from LFT Art. 74 — Jan 1, 1st Monday of Feb, 3rd Monday of Mar, May 1, Sep 16, 3rd Monday of Nov, Dec 25, and Oct 1 every 6 years (2030, 2036…). Election day (fraction IX) is not computed.
+  - **Día conmemorativo** (dashed yellow): Día de Reyes, Semana Santa, Día de las Madres, Día de Muertos, 12 de diciembre, Día Nacional de la LSM (Jun 10), Día Internacional de las Lenguas de Señas (Sep 23), etc.
+- Reminders CRUD (create / read / update / delete), stored in `localStorage` under `reminders`, same approach as alarms and devices.
+  - Can only be created or moved to **today or a future day**. Past reminders are read-only but can be deleted.
+  - Touch-first form: date stepper, optional time, category chips, optional title (no keyboard required). Max 10 per day.
+
+**How to open it**
+| Input | Action |
+|---|---|
+| LSM sign `calendario` | Opens the Calendar from any screen |
+| Tap the date card on Home | Opens the Calendar |
+| LSM sign `agregar` (on Calendar) | New reminder for the selected day |
+| LSM sign `editar` (on Calendar) | Toggle edit mode (edit / delete reminders) |
+
+**Files**
+```
+src/screens/Calendar.jsx / Calendar.css         # screen
+src/components/calendar/ReminderModal.jsx/.css  # add / edit form
+src/components/calendar/calendarFormat.js       # Spanish date formatting
+src/services/reminderService.js                 # CRUD + validation (localStorage)
+src/utils/mexicanHolidays.js                    # holiday calculation per year
+```
+Gesture wiring: `config/constants.js` (`ROUTES.CALENDAR`, `GESTURE_ACTIONS.calendario`, `SIGN_GESTURES.CALENDARIO`) and `components/input/TouchHandler.jsx` (web gesture router).
+
+### Training the `calendario` sign
+
+The deployed model (`model_final.pth`) has 10 output classes and does **not** know `calendario` yet. Until it is retrained, the Calendar is reachable by touch only.
+
+> ⚠️ Do **not** add `calendario` to `gestures_map.json` by hand: the server builds the network with `len(gestures_map)` outputs, so a map with 11 entries and a 10-class model will fail to load. The map and the model must always be regenerated together.
+
+1. Record the sign (≥ 20 clips, 3 s each; vary people, lighting and distance). Use the sign for *calendario* as used by your LSM consultants / deaf community members:
+   ```bash
+   cd backend/ml-service
+   python grabarVideo.py calendario ../dataset_gestos     # 's' = record clip, 'q' = quit
+   ```
+2. Re-extract landmarks for **all** gestures. Write into `data/` (that is where training and the server read from):
+   ```bash
+   python data_prep.py --dataset ../dataset_gestos --output data --seq-length 40
+   ```
+   Gesture IDs are assigned from the dataset folders, so they may shift (e.g. `calendario` lands between `alarma` and `camara`). That is fine because the new map is generated together with the new model.
+3. Train (menu option 1) and test live (option 4):
+   ```bash
+   python train_solid.py
+   ```
+4. Deploy `trained_models/model_final.pth`, `trained_models/normalization_stats.pth` **and** `data/gestures_map.json` together to EC2 and restart the WebSocket server.
 
 ## Training New Models
 

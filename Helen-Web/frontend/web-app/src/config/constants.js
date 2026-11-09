@@ -91,7 +91,8 @@ export const ROUTES = {
     ALARMS: '/alarms',
     WEATHER: '/weather',
     DEVICES: '/devices',
-    SETTINGS: '/settings'
+    SETTINGS: '/settings',
+    CALENDAR: '/calendar'
 };
 
 // home screen action types
@@ -106,6 +107,7 @@ export const HOME_ACTIONS = {
     WEATHER: { type: HOME_ACTION_TYPES.NAVIGATE, route: ROUTES.WEATHER },
     DEVICES: { type: HOME_ACTION_TYPES.NAVIGATE, route: ROUTES.DEVICES },
     SETTINGS: { type: HOME_ACTION_TYPES.NAVIGATE, route: ROUTES.SETTINGS },
+    CALENDAR: { type: HOME_ACTION_TYPES.NAVIGATE, route: ROUTES.CALENDAR },
     
     // modal actions
     WIFI: { type: HOME_ACTION_TYPES.MODAL, modal: 'wifi' },
@@ -115,7 +117,7 @@ export const HOME_ACTIONS = {
 /**
  * Gesture-to-Action Mapping
  * Maps sign language gestures from ML model to UI actions
- * All 10 gestures from the trained model
+ * All 11 gestures from the trained model ("calendario" added in v6.0)
  */
 export const GESTURE_ACTIONS = {
     // Navigation gestures
@@ -124,6 +126,7 @@ export const GESTURE_ACTIONS = {
     'clima': { type: HOME_ACTION_TYPES.NAVIGATE, route: ROUTES.WEATHER },
     'dispositivos': { type: HOME_ACTION_TYPES.NAVIGATE, route: ROUTES.DEVICES },
     'configuracion': { type: HOME_ACTION_TYPES.NAVIGATE, route: ROUTES.SETTINGS },
+    'calendario': { type: HOME_ACTION_TYPES.NAVIGATE, route: ROUTES.CALENDAR },
     
     // Modal gestures
     'wifi': { type: HOME_ACTION_TYPES.MODAL, modal: 'wifi' },
@@ -142,7 +145,8 @@ export const SCREENS = {
     ALARMS: { title: 'Alarmas', route: ROUTES.ALARMS, requiresAuth: true },
     WEATHER: { title: 'Clima', route: ROUTES.WEATHER, requiresAuth: true },
     DEVICES: { title: 'Dispositivos', route: ROUTES.DEVICES, requiresAuth: true },
-    SETTINGS: { title: 'Configuración', route: ROUTES.SETTINGS, requiresAuth: true }
+    SETTINGS: { title: 'Configuración', route: ROUTES.SETTINGS, requiresAuth: true },
+    CALENDAR: { title: 'Calendario', route: ROUTES.CALENDAR, requiresAuth: true }
 };
 
 export const CIRCLE_STATES = {
@@ -156,6 +160,7 @@ export const SCREEN_NAMES = {
     [ROUTES.WEATHER]: 'Clima',
     [ROUTES.DEVICES]: 'Dispositivos',
     [ROUTES.SETTINGS]: 'Configuración',
+    [ROUTES.CALENDAR]: 'Calendario',
     [ROUTES.HOME]: null,  // HomeScreen excluded (uses orb instead)
     [ROUTES.LOCK]: null,  // LockScreen excluded
 };
@@ -201,6 +206,7 @@ export const SIGN_GESTURES = {
     CLIMA: 'clima',
     DISPOSITIVOS: 'dispositivos',
     CONFIGURACION: 'configuracion',
+    CALENDARIO: 'calendario',
     WIFI: 'wifi',
     TEMA: 'colores',
     AGREGAR: 'agregar',
